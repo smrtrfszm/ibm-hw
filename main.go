@@ -87,9 +87,16 @@ func server(ctx context.Context, ready chan bool) {
 		Handler: router,
 	}
 
-	// server.Shutdown(ctx)
+	go func() {
+		err = server.Serve(listener)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
-	err = server.Serve(listener)
+	<-ctx.Done()
+
+	err = server.Shutdown(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
