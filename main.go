@@ -78,6 +78,7 @@ func server(ctx context.Context, ready chan bool) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer listener.Close()
 
 	ready <- true
 
