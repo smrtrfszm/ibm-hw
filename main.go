@@ -103,12 +103,13 @@ func server(ctx context.Context, ready chan bool) {
 }
 
 func client() {
-	_, err := http.Post("http://127.0.0.1:8080/time", "text/plain", strings.NewReader("123456789"))
+	resp, err := http.Post("http://127.0.0.1:8080/time", "text/plain", strings.NewReader("123456789"))
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer resp.Body.Close()
 
-	resp, err := http.Get("http://127.0.0.1:8080/time")
+	resp, err = http.Get("http://127.0.0.1:8080/time")
 	if err != nil {
 		log.Fatal(err)
 	}
